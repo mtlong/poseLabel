@@ -47,7 +47,7 @@ F_3d = length(h36m_icon);
 h36m_cell = cellfun(@transpose,h36m_icon,'UniformOutput',false);
 
 MPI_3Danno = zeros(F_2d,1);
-for idx=1:F_2d
+parfor idx=1:F_2d
     c_anno = MPI_anno(idx);    
     ptsX = cell2mat({c_anno.points.x});
     ptsY = cell2mat({c_anno.points.y});
@@ -65,10 +65,6 @@ for idx=1:F_2d
 end
 
 save('MPI_3Danno.mat','MPI_3Danno');
-
-
-
-
 
 
 
