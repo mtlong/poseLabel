@@ -52,8 +52,10 @@ F_3d = length(h36m_icon);
 h36m_cell = cellfun(@transpose,h36m_icon,'UniformOutput',false);
 MPI_3DAnno = zeros(F_2d,KNN*2);
 
-for idx=1:F_2d
+parfor idx=1:F_2d
     c_anno = MPI_anno(idx).points;
+    image_K = MPI_anno(idx).image_K;
+    
     pts = [c_anno.x;c_anno.y];
     ptsid = [c_anno.id]+1;    
     pts2d = zeros(size(pts));    
@@ -63,13 +65,13 @@ for idx=1:F_2d
     
     K_cell = cell(F_3d,1);
     Pts_cell = cell(F_3d,1);
-    K_cell(:) = {c_anno.image_K};
+    K_cell(:) = {image_K};
     Pts_cell(:) = {pts2d};
     [~,~,~,err]=cellfun(@efficient_pnp_error,h36m_cell,Pts_cell,K_cell,'UniformOutput',false);
     [sorterr,sortid] = sort(cell2mat(err));    
     solid = sortid(1:KNN);
     solerr = sorterr(1:KNN);
-    MPI_3DAnno(idx,:) = [solid,solerr];    
+    MPI_3DAnno(idx,:) = [solid',solerr'];    
     fprintf('MPI 2D id: %d \n',idx);    
 end
 
