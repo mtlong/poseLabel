@@ -36,12 +36,6 @@ Rep2D_cell = cellfun(@reproject,R_cell,T_cell,K_cell,Anno3D_cell,'UniformOutput'
 
 %%
 
-
-
-
-
-
-
 function x = reproject(R,T,K,X)
     x = K*[R,T]*[X,ones(length(X),1)]';
     x = x./repmat(x(3,:),3,1);    
