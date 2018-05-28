@@ -3,7 +3,11 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 import cv2
+import os
+import sys
+import shutil
 prefix = '/home/xiul/databag/mpii_human_pose/'
+outprefix = '/media/posefs1web/Users/xiu/poseLabel_data/'
 mpi2h36m = [9,8,12,11,10,13,14,15,2,1,0,3,4,5]
 
 def parseMatAnno(anno):
@@ -40,15 +44,27 @@ def draw2DPose(img,ptsF):
 def main():
     tMat = sio.loadmat(prefix+'MPI_anno.mat')
     MPI_anno = tMat['MPI_anno']
-    nAnno = (MPI_anno.shape)[1]
-    for idx in range(0,nAnno):        
-        imgPath = prefix+'images/'+MPI_anno['image'][0,idx][0]
-        pts = parseMatAnno(MPI_anno['points'][0,idx])
-        img = cv2.imread(imgPath)
-        draw2DPose(img,pts)
-        cv2.imshow('img',img)
-        cv2.waitKey(-1)
 
+    tGroup = sio.loadmat(prefix+'groups.mat')['groups']
+    group3DId = tGroup['h36m'][0,0][:,0]        
+    group2DId = tGroup['mpi'][0,0]
+    groupNum = len(group3DId)
+    # remove original data
+    if os.path.isdir(outprefix+'block_images/'):
+        shutil.rmtree(outprefix+'block_images/')
+    os.mkdir(outprefix+'block_images/')
+    for i in range(groupNum):
+        cPath = outprefix+'block_images/'+str(group3DId[i])+'/'
+        print('Writing block_images to {}'.format(cPath))        
+        os.mkdir(cPath)
+        imageNum = group2DId[i,0].shape[0]
+        for j in range(imageNum):
+            imgName = MPI_anno['image'][0,group2DId[i,0][j,0]][0]
+            imgPath = prefix+'images/'+imgName
+            pts = parseMatAnno(MPI_anno['points'][0,group2DId[i,0][j,0]])
+            img = cv2.imread(imgPath)
+            draw2DPose(img,pts)
+            cv2.imwrite(cPath+imgName,img)
 
 if __name__ == '__main__':
     main()

@@ -4,7 +4,7 @@ load('~/databag/mpii_human_pose/h36m_icon.mat');
 P = 14;
 F_anno = length(MPI_3DAnno);
 groupsizeTh = 10;
-normerrTh = 0.05;
+normerrTh = 0.04;
 
 
 %% group size
@@ -20,6 +20,4 @@ select_group = find(group_size>groupsizeTh);
 groups.mpi = group_id(select_group);
 groups.h36m = select_group;
 save('~/databag/mpii_human_pose/groups.mat','groups');
-
-
 
