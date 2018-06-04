@@ -71,9 +71,9 @@ parfor idx=1:F_2d
     [sorterr,sortid] = sort(cell2mat(err));    
     solid = sortid(1:KNN);
     solerr = sorterr(1:KNN);
-    MPI_3DAnno(idx,:) = [solid',solerr'];    
-    fprintf('MPI 2D id: %d \n',idx);    
+    MPI_3DAnno(idx,:) = [solid',solerr'];
+    fprintf('MPI 2D id: %d \n',idx);
 end
 
-save('MPI_3DAnno.mat','MPI_3DAnno');
+save('MPI_h36m_Anno.mat','MPI_3DAnno');
 
