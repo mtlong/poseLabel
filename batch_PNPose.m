@@ -41,15 +41,15 @@ addpath('EPnP_matlab/EPnP/');
 addpath('EPnP_matlab/error/');
 
 load('~/databag/mpii_human_pose/MPI_anno.mat');
-load('~/databag/mpii_human_pose/h36m_icon.mat');
+load('~/databag/mpii_human_pose/h36m_K_pose.mat');
 
 P = 16;
 
 mpi2h36m = [10 9 13 12 11 14 15 16 3 2 1 4 5 6]';
 %% 
 F_2d = length(MPI_anno);
-F_3d = length(h36m_icon);
-h36m_cell = cellfun(@transpose,h36m_icon,'UniformOutput',false);
+F_3d = length(h36m_K_pose);
+%h36m_cell = cellfun(@transpose,h36m_K_pose,'UniformOutput',false);
 MPI_3DAnno = zeros(F_2d,KNN*2);
 
 parfor idx=1:F_2d
@@ -67,7 +67,7 @@ parfor idx=1:F_2d
     Pts_cell = cell(F_3d,1);
     K_cell(:) = {image_K};
     Pts_cell(:) = {pts2d};
-    [~,~,~,err]=cellfun(@efficient_pnp_error,h36m_cell,Pts_cell,K_cell,'UniformOutput',false);
+    [~,~,~,err]=cellfun(@efficient_pnp_error,h36m_K_pose,Pts_cell,K_cell,'UniformOutput',false);
     [sorterr,sortid] = sort(cell2mat(err));    
     solid = sortid(1:KNN);
     solerr = sorterr(1:KNN);
