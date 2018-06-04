@@ -29,7 +29,7 @@ fprintf('starting---\n');
 
 %% Purifying.
 
-poseTh = 0.025*80;
+poseTh = 0.01*80;
 
 
 icon_mask = ones(F,1);
