@@ -27,7 +27,7 @@ def main():
                 htmldoc.asis('}')                
 
         with htmltag('body'):
-            with htmltag('h2'):
+            with htmltag('h2',align='center'):
                 htmltext('PnP Pose visualization')            
             with htmltag('table'):
                 for row in range(numRow):                                            
