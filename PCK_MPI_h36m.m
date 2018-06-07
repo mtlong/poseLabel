@@ -1,8 +1,8 @@
 addpath('EPnP_matlab/EPnP/');
 addpath('EPnP_matlab/error/');
 load('~/databag/mpii_human_pose/MPI_anno.mat');
-load('~/databag/mpii_human_pose/h36m_icon.mat');
-load('~/databag/mpii_human_pose/MPI_3DAnno.mat');
+load('~/databag/mpii_human_pose/h36m_K_pose.mat');
+load('~/databag/mpii_human_pose/MPI_h36m_Anno.mat');
 mpi2h36m = [10 9 13 12 11 14 15 16 3 2 1 4 5 6]';
 
 P = 16;
@@ -10,9 +10,8 @@ P = 16;
 [F_anno,KNN] = size(MPI_3DAnno);
 KNN = KNN/2;
 
-h36m_cell = cellfun(@transpose,h36m_icon,'UniformOutput',false);
 
-Anno3D_cell = h36m_cell(MPI_3DAnno(:,1)); %%KNN = 1
+Anno3D_cell = h36m_K_pose(MPI_3DAnno(:,1)); %%KNN = 1
 Anno2D_cell = cell(F_anno,1);
 
 
@@ -56,6 +55,6 @@ title('PCK curve');
 xlabel('Normlized err','FontSize',12,'FontName','Times');
 ylabel('Rate','FontSize',12,'FontName','Times');
 print('PCK_curve','-dpng');
-save('~/databag/mpii_human_pose/MPI_3DAnnoerr.mat','MPI_3DAnno','normerr');
+%save('~/databag/mpii_human_pose/MPI_3DAnnoerr.mat','MPI_3DAnno','normerr');
 
 

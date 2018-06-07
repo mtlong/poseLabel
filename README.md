@@ -15,5 +15,5 @@ Download the 3D pose library from the following link:
 Still Underconstruction
 
 ## Reference
-Structure from Recurrent Motion: From Rigidity to Recurrency.
+Structure from Recurrent Motion: From Rigidity to Recurrency. CVPR 2018
 http://arxiv.org/abs/1804.06510

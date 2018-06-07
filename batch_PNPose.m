@@ -75,5 +75,5 @@ parfor idx=1:F_2d
     fprintf('MPI 2D id: %d \n',idx);
 end
 
-save('MPI_h36m_Anno.mat','MPI_3DAnno');
+save('~/databag/mpii_human_pose/MPI_h36m_Anno.mat','MPI_3DAnno');
 
