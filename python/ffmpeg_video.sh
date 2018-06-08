@@ -1,0 +1,1 @@
+ffmpeg -i "/home/xiul/databag/SFRM/tsinghua_walk/h36m_images/%04d.jpg" -vcodec mpeg4 -framerate 25 out.avi

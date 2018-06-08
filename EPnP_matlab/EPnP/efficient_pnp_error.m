@@ -1,4 +1,4 @@
-function [R,T,Xc,final_error]=efficient_pnp_error(x3d_h,x2d_h,A)
+function [R,T,Xc,final_error]=efficient_pnp_error(x3d_h,x2d_h,A,mask)
 
     % EFFICIENT_PNP Main Function to solve the PnP problem 
     %       as described in:
@@ -29,6 +29,9 @@ function [R,T,Xc,final_error]=efficient_pnp_error(x3d_h,x2d_h,A)
     %
     % Francesc Moreno-Noguer, CVLab-EPFL, September 2007.
     % fmorenoguer@gmail.com, http://cvlab.epfl.ch/~fmoreno/ 
+    
+    x3d_h = x3d_h(mask,:);
+    x2d_h = x2d_h(mask,:);
     
     
     Xw=x3d_h(:,1:3);
