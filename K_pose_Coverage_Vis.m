@@ -32,7 +32,7 @@ for i=1:K
     cR = {cRecord(2:end).R};
     cT = {cRecord(2:end).T};
     [~,cCam] = cellfun(@invRT,cR,cT,'UniformOutput',false);
-    % oCam = cellfun(@transpose,oCam,'UniformOutput',false);
+
     cCam = cCam';
     cCam = cellfun(@transpose,cCam,'UniformOutput',false);
     cCam = cell2mat(cCam);
@@ -42,19 +42,19 @@ for i=1:K
     
     figure(1);
     clf;
-    smK = 0.5*ones(3);
+    smK = 0.5*ones(6);
     xymapSM = conv2(xymap,smK,'same');
     imagesc(xymapSM);
     axis equal;
     imgName = sprintf('heatmap%04d',i);
     skName = sprintf('pose%04d',i);
-    print(['~/databag/mpii_human_pose/' imgName],'-dpng');
+   % print(['~/databag/mpii_human_pose/' imgName],'-dpng');
     figure(2);
     clf;
     vis_3d(cPoseAlign');
     view([0 0]);
     axis equal;
-    print(['~/databag/mpii_human_pose/' skName],'-dpng');
+   % print(['~/databag/mpii_human_pose/' skName],'-dpng');
     
     %         kPose = h36m_K_pose{i};
     %         kTorso= kPose(mpi2torso,:);
@@ -63,38 +63,7 @@ for i=1:K
 end
 
 
-% K_pose_mpi = [];
-% d1 = zeros(K,1);
-% d2 = zeros(K,1);
-% d12 = zeros(K,1);
-%
-% for i=1:K
-%     cId = find(MPI_3DAnno(:,1)==i);
-%     K_pose_mpi(i).valid = length(cId)>val_Length;
-%     if(K_pose_mpi(i).valid)
-%         K_pose_mpi(i).id = {cId};
-%
-%         kPose = h36m_K_pose{i};
-%         kTorso= kPose(mpi2torso,:);
-%         [Rc,Tc] = bodyAlign(kTorso,TorsoFrame);
-%         kPoseAlign = Rc*kPose'+Tc;
-%
-%         cR = R_cell(cId);
-%         cT = T_cell(cId);
-%
-%         [~,oCam] = cellfun(@invRT,cR,cT,'UniformOutput',false);
-%         oCam = cellfun(@transpose,oCam,'UniformOutput',false);
-%         oCam = cell2mat(oCam);
-%         K_pose_mpi(i).cam = Rc*oCam'+Tc;
-%         figure(1);
-%         clf;
-%         vis_3d(kPoseAlign');
-%         hold on;
-%         plot3(K_pose_mpi(i).cam(1,:),K_pose_mpi(i).cam(2,:),K_pose_mpi(i).cam(3,:),'r+');
-%         pause;
-%     end
-% end
-%
+
 function [xymap,hmap] = cam2heatmap(cams,scores)
 
 nBins = 300;
