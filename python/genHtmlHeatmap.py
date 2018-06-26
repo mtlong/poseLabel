@@ -5,7 +5,7 @@ import os
 outprefix = '/media/posefs1web/Users/xiu/poseLabel_data/'
 def main():    
     numRecord = 1000
-    numCol = 3
+    numCol = 2
     numRow = numRecord//numCol
     htmldoc, htmltag, htmltext = Doc().tagtext()
     htmldoc.asis('<!DOCTYPE html>')    
@@ -28,16 +28,26 @@ def main():
                             with htmltag('td'):
                                 htmltext('K pose id:{}'.format(idx))  
                             with htmltag('td'):
-                                htmltext('viewpoint heatmap')                                                         
+                                htmltext('view Heatmap XY')
+                            with htmltag('td'):
+                                htmltext('view Heatmap XZ')
+                            with htmltag('td'):
+                            	htmltext('view Heatmap YZ')                                                        
                     with htmltag('tr'):
                         for col in range(numCol):
                             idx = row*numCol+col
-                            heatmap = 'heatmap{:04d}.png'.format(idx+1)
+                            heatmapXY = 'heatmapxy{:04d}.png'.format(idx+1)
+                            heatmapXZ = 'heatmapxh{:04d}.png'.format(idx+1)
+                            heatmapYZ = 'heatmapyh{:04d}.png'.format(idx+1)
                             poseName = 'pose{:04d}.png'.format(idx+1)
                             with htmltag('td'):
                                 htmldoc.stag('img', src='heatmap/'+poseName,width='300')
                             with htmltag('td'):
-                                htmldoc.stag('img', src='heatmap/'+heatmap,width='300')
+                                htmldoc.stag('img', src='heatmap/'+heatmapXY,width='300')
+                            with htmltag('td'):
+                            	htmldoc.stag('img', src='heatmap/'+heatmapXZ,width='300')
+                            with htmltag('td'):
+                            	htmldoc.stag('img', src='heatmap/'+heatmapYZ,width='300')    
                    
 
     htmlFile = open(outprefix+'viewHeatmap.html','w')                           
