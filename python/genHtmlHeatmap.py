@@ -41,13 +41,13 @@ def main():
                             heatmapYZ = 'heatmapyh{:04d}.png'.format(idx+1)
                             poseName = 'pose{:04d}.png'.format(idx+1)
                             with htmltag('td'):
-                                htmldoc.stag('img', src='heatmap/'+poseName,width='300')
+                                htmldoc.stag('img', src='heatmap/'+poseName,width='150')
                             with htmltag('td'):
-                                htmldoc.stag('img', src='heatmap/'+heatmapXY,width='300')
+                                htmldoc.stag('img', src='heatmap/'+heatmapXY,width='150',style='transform: scaleY(-1)')
                             with htmltag('td'):
-                            	htmldoc.stag('img', src='heatmap/'+heatmapXZ,width='300')
+                            	htmldoc.stag('img', src='heatmap/'+heatmapXZ,width='150',style='transform: scaleY(-1)')
                             with htmltag('td'):
-                            	htmldoc.stag('img', src='heatmap/'+heatmapYZ,width='300')    
+                            	htmldoc.stag('img', src='heatmap/'+heatmapYZ,width='150',style='transform:scale(-1,-1)')    
                    
 
     htmlFile = open(outprefix+'viewHeatmap.html','w')                           
@@ -56,9 +56,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-

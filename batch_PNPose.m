@@ -76,4 +76,3 @@ parfor idx=1:F_2d
 end
 
 save('~/databag/mpii_human_pose/MPI_h36m_Anno.mat','MPI_3DAnno');
-
