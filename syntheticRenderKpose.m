@@ -2,7 +2,7 @@
 
 meanD = 3000;
         
-el_num = 18;
+el_num = 15;
 el_step = pi/(el_num-1);
 el_list = -pi/2:el_step:pi/2;
 
@@ -20,56 +20,38 @@ for i=1:length(az_list)
     az_list(i) = {caz_list};
 end
 
+sample_num = sum(az_num) + 2;
+
+
 %% Load K poses and Align
 
-ddpath('tool_geometry/');
+addpath('tool_geometry/');
 load('~/databag/mpii_human_pose/h36m_K_pose.mat');
 K = length(h36m_K_poseAlign);
-% ssdist = 279.5914;
-% hhdist = 265.8974;
-% shdist = 431.3684;
-% TorsoFrame = zeros(4,3);
-% TorsoFrame(1,:) = [-ssdist/2 0 shdist];
-% TorsoFrame(2,:) = [ssdist/2 0 shdist];
-% TorsoFrame(3,:) = [hhdist/2 0 0];
-% TorsoFrame(4,:) = [-hhdist/2 0 0];
-% TorsoId = [3 6 12 9];
-% K = length(h36m_K_pose);
-% h36m_K_poseAlign = cell(K,1);
-% for i=1:K
-%     cPose = h36m_K_pose{i};
-%     cTorso = cPose(TorsoId,:);
-%     [Rc,Tc] = bodyAlign(cTorso,TorsoFrame);
-%     cPoseAlign = Rc*cPose'+Tc;
-%     h36m_K_poseAlign(i) = {cPoseAlign'};
-% end
+P = length(h36m_K_poseAlign{1});
 
 
 %% Render all the images
 
-% for i=1:K
-%     cPoseAlign = h36m_K_poseAlign{i};
-%     for el = 1:el_num
-%         for az = 1:length(az_list{i})
-%             
-%         end        
-%     end
-%     
-% end
 
+h36m_K_rendered = zeros(sample_num*K,2*P);
+h36m_K_renderedCos = zeros(sample_num*K,P*(P-1)/2);
+h36m_K_renderedPos = zeros(sample_num*K,3);
 
-%%
-cPoseAlign = h36m_K_poseAlign{2};
-figure(1);
-hold on;
-vis_3d(cPoseAlign);
-for i=1:el_num
-    for j=1:length(az_list{i})
-        [x,y,z] = sph2cart(az_list{i}(j),el_list(i),meanD);
-        plot3(x,y,z,'r^');
-    end    
+idx = 1;
+for i=1:K
+    cPoseAlign = h36m_K_poseAlign{i};
+    for el = 1:el_num
+        for az = 1:length(az_list{el})
+            elc = el_list(el);
+            azc = az_list{el}(az);            
+            p2d = render2azel(cPoseAlign,azc,elc,meanD);           
+            h36m_K_rendered(idx,:) = p2d(:); 
+            h36m_K_renderedCos(idx,:) = cart2cos(p2d);
+            h36m_K_renderedPos(idx,:) = [azc,elc,meanD];
+            idx = idx+1;
+        end        
+    end
 end
-grid on;
-axis equal;
-view([30 30])
-print -dpng renderview 
+save('~/databag/mpii_human_pose/h36m_K_rendered.mat','h36m_K_rendered','h36m_K_renderedCos','h36m_K_renderedPos');
+
